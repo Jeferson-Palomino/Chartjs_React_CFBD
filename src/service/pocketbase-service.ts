@@ -6,8 +6,6 @@ export const records = await pb.collection('emergencies').getFullList(200 /* bat
     sort: '-created',
 });
 
-
-
 export async function filtrar(inicioDate:string, finDate:string) {
     const filtro = await pb.collection('emergencies').getList(1, 200 ,{
         filter: `created > "${inicioDate}" && created < "${finDate}"`,

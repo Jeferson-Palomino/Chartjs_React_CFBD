@@ -1,4 +1,4 @@
-import React, { useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import { records } from "../service/pocketbase-service";
 import {
   Chart as ChartJS,
@@ -6,12 +6,12 @@ import {
   LinearScale,
   BarElement,
   Title,
-  Tooltip, 
+  Tooltip,
   Legend,
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
 import faker, { date } from 'faker';
-import axios from  'axios';
+import axios from 'axios';
 
 
 ChartJS.register(
@@ -22,7 +22,7 @@ ChartJS.register(
   Tooltip,
   Legend
 );
- 
+
 
 export const options = {
   responsive: true,
@@ -40,18 +40,18 @@ export const options = {
 
 
 export default function App() {
- 
+
   interface Item {
-    emergency_time: string; 
+    emergency_time: string;
   }
-  const [cantidad, setCantidad]=useState<never[]>([]);
+  const [cantidad, setCantidad] = useState<never[]>([]);
   const [posts, setPosts] = useState<Array<any>>([]);
-  
+
   const urlApi = async () => {
-        setPosts(records);    
-      }
+    setPosts(records);
+  }
   const labels = Object.keys(cantidad);
-  
+
   const data = {
     labels,
     datasets: [
@@ -62,18 +62,18 @@ export default function App() {
       },
     ],
   };
-    useEffect(()=>{
-        urlApi();
-    },[]);
+  useEffect(() => {
+    urlApi();
+  }, []);
 
-    useEffect(() => {
-      const contador = posts.reduce((acc: { [key: string]: number }, item: Item) => {
-        const date = item.emergency_time.slice(0, 10);
-        acc[date] = (acc[date] || 0) + 1;
-        return acc;
-      }, {});
-      setCantidad(contador);
-    }, [posts]);
+  useEffect(() => {
+    const contador = posts.reduce((acc: { [key: string]: number }, item: Item) => {
+      const date = item.emergency_time.slice(0, 10);
+      acc[date] = (acc[date] || 0) + 1;
+      return acc;
+    }, {});
+    setCantidad(contador);
+  }, [posts]);
   return <Bar options={options} data={data} />;
 }
 
